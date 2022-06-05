@@ -50,7 +50,7 @@
 				<configuration>
 					<warSourceDirectory>sample-tomcat</warSourceDirectory> <!-- war파일 디렉토리 -->
 					<failOnMissingWebXml>false</failOnMissingWebXml> <!-- web.xml이 없을 때 에러를 낼건지 안낼건지 -->
-                    <webXml>sample-tomcat/WEB-INF/web.xml</webXml>
+                    <webXml>WEB-INF/web.xml</webXml>
 				</configuration>
 			</plugin>
 		</plugins>
