@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  S3_BUCKET_NAME: hsy-bucket-01
+  CODE_DEPLOY_APPLICATION_NAME: hsy-codedeploy-app
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: hsy-codedeploy-deployment-group
+
 jobs:
   build:
 
@@ -33,3 +38,11 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
+        
+    # 빌드 결과물을 S3 버킷에 업로드
+    - name: Upload to AWS S3
+      run: |
+        aws deploy push \ 
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+          --source .
