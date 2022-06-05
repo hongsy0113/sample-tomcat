@@ -1,41 +1,19 @@
+#!/usr/bin/env bash
 
-os400=false
-case "`uname`" in
-OS400*) os400=true;;
-esac
+PROJECT_ROOT="/home/ubuntu/app"
+JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
 
-# resolve links - $0 may be a softlink
+DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
+TIME_NOW=$(date +%c)
 
-PRG="$0"
+# 현재 구동 중인 애플리케이션 pid 확인
+CURRENT_PID=$(pgrep -f $JAR_FILE)
 
-while [ -h "$PRG" ] ; do
-  ls=`ls -ld "$PRG"`
-  link=`expr "$ls" : '.*-> \(.*\)$'`
-  if expr "$link" : '/.*' > /dev/null; then
-    PRG="$link"
-  else
-    PRG=`dirname "$PRG"`/"$link"
-  fi
-done
-
-PRGDIR=`dirname "$PRG"`
-EXECUTABLE=catalina.sh
-
-# Check that target executable exists
-if $os400; then
-  # -x will Only work on the os400 if the files are:
-  # 1. owned by the user
-  # 2. owned by the PRIMARY group of the user
-  # this will not work if the user belongs in secondary groups
-  eval
+# 프로세스가 켜져 있으면 종료
+if [ -z $CURRENT_PID ]; then
+  echo "$TIME_NOW > 현재 실행중인 애플리케이션이 없습니다" >> $DEPLOY_LOG
 else
-  if [ ! -x "$PRGDIR"/"$EXECUTABLE" ]; then
-    echo "Cannot find $PRGDIR/$EXECUTABLE"
-    echo "The file is absent or does not have execute permission"
-    echo "This file is needed to run this program"
-    exit 1
-  fi
+  echo "$TIME_NOW > 실행중인 $CURRENT_PID 애플리케이션 종료 " >> $DEPLOY_LOG
+  kill -15 $CURRENT_PID
 fi
-
-exec "$PRGDIR"/"$EXECUTABLE" stop "$@"
