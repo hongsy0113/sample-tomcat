@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
+PROJECT_ROOT="/root/apache-tomcat-10.0.21/webapps/sample-tomcat"
+JAR_FILE="$PROJECT_ROOT/sample.war"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
