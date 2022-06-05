@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source:  /
-    destination: /root/apache-tomcat-10.0.21/webapps
+    destination: /root/apache-tomcat-10.0.21/webapps/sample-tomcat
     overwrite: yes
 
 permissions:
